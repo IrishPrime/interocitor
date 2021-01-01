@@ -1,0 +1,13 @@
+---
+all:
+  children:
+    personal:
+      hosts:
+        ireland:
+        banshee:
+        wisp:
+    work:
+      hosts:
+        callisto:
+
+# vim: filetype=yaml
