@@ -1,0 +1,7 @@
+---
+- name: Install standard packages
+  ansible.builtin.package:
+    state: present
+    name: "{{ packages }}"
+  tags:
+    - packages

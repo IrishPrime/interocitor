@@ -1,0 +1,6 @@
+---
+- name: Base system configuration
+  hosts: all
+  become: yes
+  roles:
+    - common
