@@ -5,3 +5,47 @@
     name: "{{ packages }}"
   tags:
     - packages
+
+- name: Install packages for graphical systems
+  ansible.builtin.package:
+    state: present
+    name: "{{ gui_packages }}"
+  when: "'gui' in group_names"
+  tags:
+    - packages
+
+- name: Install packages for headless systems
+  ansible.builtin.package:
+    state: present
+    name: "{{ headless_packages }}"
+  when: "'headless' in group_names"
+  tags:
+    - packages
+
+- name: Copy .profile
+  copy:
+    src: profile
+    dest: "{{ lookup('env', 'HOME') }}/.profile"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+  tags:
+    - configuration
+
+- name: Copy .Xresources
+  copy:
+    src: Xresources.{{ theme }}
+    dest: "{{ lookup('env', 'HOME') }}/.Xresources"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  when: "'gui' in group_names"
+  tags:
+    - themes
+
+- name: Copy .dir_colors
+  copy:
+    src: dir_colors.{{ theme }}
+    dest: "{{ lookup('env', 'HOME') }}/.dir_colors"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  tags:
+    - themes

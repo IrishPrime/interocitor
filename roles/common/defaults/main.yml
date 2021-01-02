@@ -62,3 +62,65 @@ packages:
   - zsh-history-substring-search
   - zsh-syntax-highlighting
   - zsh-theme-powerlevel10k
+
+# Packages to only be installed on graphical systems
+gui_packages:
+  - alsa-utils
+  - arandr
+  - autorandr
+  - chromium
+  - deluge-gtk
+  - gvim
+  - libreoffice-fresh
+  - lightdm-gtk-greeter-settings
+  - lxappearance-gtk3
+  - lxinput-gtk3
+  - lxsession-gtk3
+  - nitrogen
+  - pcmanfm-gtk3
+  - picom
+  - poppler
+  - scrot
+  - termite
+  - ttf-dejavu
+  - ttf-nerd-fonts-symbols
+  - xclip
+  - xdg-user-dirs-gtk
+  - xdotool
+  - xorg-iceauth
+  - xorg-server
+  - xorg-sessreg
+  - xorg-smproxy
+  - xorg-x11perf
+  - xorg-xauth
+  - xorg-xcmsdb
+  - xorg-xcursorgen
+  - xorg-xdpyinfo
+  - xorg-xdriinfo
+  - xorg-xev
+  - xorg-xgamma
+  - xorg-xhost
+  - xorg-xinput
+  - xorg-xkbevd
+  - xorg-xkbutils
+  - xorg-xkill
+  - xorg-xlsatoms
+  - xorg-xlsclients
+  - xorg-xmodmap
+  - xorg-xpr
+  - xorg-xprop
+  - xorg-xrdb
+  - xorg-xrefresh
+  - xorg-xsetroot
+  - xorg-xvinfo
+  - xorg-xwd
+  - xorg-xwininfo
+  - xorg-xwud
+
+# Packages to only be installed on headless systems
+headless_packages:
+  - vim
+
+theme: nord
+user: irish
+group: irish
