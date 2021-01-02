@@ -1,5 +1,9 @@
 ---
 all:
+  hosts:
+    localhost:
+      vars:
+        ansible_connection: local
   children:
     personal:
       hosts:
@@ -9,5 +13,13 @@ all:
     work:
       hosts:
         callisto:
+    gui:
+      hosts:
+        ireland:
+        callisto:
+        wisp:
+    headless:
+      hosts:
+        banshee:
 
 # vim: filetype=yaml
