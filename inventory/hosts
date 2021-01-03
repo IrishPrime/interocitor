@@ -13,7 +13,7 @@ all:
     work:
       hosts:
         callisto:
-    gui:
+    graphical:
       hosts:
         ireland:
         callisto:

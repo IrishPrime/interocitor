@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Remove local branches which have had their upstream removed. This is
+# particularly useful after a "Squash and Merge" on the remote, because the
+# local branch will not appear merged due to commit hash mismatches.
+
+git fetch --all --prune
+if git branch -vv | grep -q ': gone]'; then
+	git branch -vv | grep ': gone]' | awk '{ print $1 }' | xargs -n 1 git branch -D
+fi

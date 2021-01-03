@@ -1,24 +1,8 @@
 ---
-- name: Install standard packages
+- name: Install packages
   ansible.builtin.package:
     state: present
-    name: "{{ packages }}"
-  tags:
-    - packages
-
-- name: Install packages for graphical systems
-  ansible.builtin.package:
-    state: present
-    name: "{{ gui_packages }}"
-  when: "'gui' in group_names"
-  tags:
-    - packages
-
-- name: Install packages for headless systems
-  ansible.builtin.package:
-    state: present
-    name: "{{ headless_packages }}"
-  when: "'headless' in group_names"
+    name: "{{ lookup('community.general.flattened', standard_packages , graphical_packages, headless_packages) }}"
   tags:
     - packages
 
@@ -37,7 +21,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.Xresources"
     owner: "{{ user }}"
     group: "{{ group }}"
-  when: "'gui' in group_names"
+  when: "'graphical' in group_names"
   tags:
     - themes
 
@@ -49,3 +33,24 @@
     group: "{{ group }}"
   tags:
     - themes
+
+- name: Create user bin directory
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.local/bin"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  tags:
+    - scripts
+
+- name: Install user scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.local/bin/"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  with_fileglob:
+    - bin/*
+  tags:
+    - scripts
