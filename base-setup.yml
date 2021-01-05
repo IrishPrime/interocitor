@@ -5,3 +5,4 @@
   roles:
     - { role: common, tags: common }
     - { role: bash, tags: bash }
+    - { role: bspwm, tags: bspwm }

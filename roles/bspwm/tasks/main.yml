@@ -1,0 +1,46 @@
+---
+- name: Install bspwm
+  ansible.builtin.package:
+    name: bspwm
+    state: present
+  tags:
+    - packages
+
+- name: Create bspwm user directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/bspwm/"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  tags:
+    - configuration
+
+- name: Copy bspwm user files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/bspwm/{{ item }}"
+  with_items:
+    - autostart
+    - bspwmrc
+  tags:
+    - configuration
+
+- name: Copy bspwm-session handler
+  ansible.builtin.copy:
+    src: bspwm-session
+    dest: /usr/local/bin/bspwm-session
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - scripts
+
+- name: Copy xsession desktop file
+  ansible.builtin.copy:
+    src: bspwm.desktop
+    dest: /usr/share/xsessions/bspwm.desktop
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - scripts

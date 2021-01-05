@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+nitrogen --restore
+xrdb -merge ~/.Xresources
+xsetroot -cursor_name left_ptr
+
+if ! pgrep picom; then
+	picom --daemon --blur-background --no-vsync
+fi
+
+case $(hostnamectl --static) in
+	ireland)
+		polybar --reload ireland-primary &
+		polybar --reload ireland-secondary &
+		pasystray &
+		;;
+	wisp)
+		setxkbmap -option ctrl:nocaps
+		polybar --reload wisp &
+		;;
+	callisto)
+		setxkbmap -option ctrl:nocaps
+		autorandr --force --change &
+		;;
+esac
