@@ -7,7 +7,7 @@
     - packages
 
 - name: Copy .profile
-  copy:
+  ansible.builtin.copy:
     src: profile
     dest: "{{ lookup('env', 'HOME') }}/.profile"
     owner: "{{ lookup('env', 'USER') }}"
@@ -16,7 +16,7 @@
     - configuration
 
 - name: Copy .Xresources
-  copy:
+  ansible.builtin.copy:
     src: Xresources.{{ theme }}
     dest: "{{ lookup('env', 'HOME') }}/.Xresources"
     owner: "{{ user }}"
@@ -26,7 +26,7 @@
     - themes
 
 - name: Copy .dir_colors
-  copy:
+  ansible.builtin.copy:
     src: dir_colors.{{ theme }}
     dest: "{{ lookup('env', 'HOME') }}/.dir_colors"
     owner: "{{ user }}"
@@ -35,7 +35,7 @@
     - themes
 
 - name: Create user bin directory
-  file:
+  ansible.builtin.file:
     path: "{{ lookup('env', 'HOME') }}/.local/bin"
     state: directory
     owner: "{{ user }}"
@@ -44,7 +44,7 @@
     - scripts
 
 - name: Install user scripts
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ lookup('env', 'HOME') }}/.local/bin/"
     owner: "{{ user }}"
