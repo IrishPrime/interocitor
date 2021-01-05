@@ -1,0 +1,11 @@
+---
+- name: Install standard bash files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_fileglob:
+    - bash*
+  tags:
+    - configuration
