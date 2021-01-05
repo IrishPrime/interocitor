@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+export SXHKD_SHELL="/bin/zsh"
+export TERMINAL="termite"
+export EDITOR="vim"
+export VISUAL="gvim"
+export SUDO_EDITOR="vim"
+export BROWSER="chromium"
+export CALCULATOR="${TERMINAL} -e calc"
+export FILE_BROWSER="pcmanfm"
+export IM_CLIENT="discord"
+export IRC_CLIENT="hexchat"
+export MAIL_CLIENT="${TERMINAL} -e mutt"
+export MUSIC_PLAYER="${BROWSER} https://music.youtube.com/"
+export VIRTUALIZATION="virt-manager"
+
+export QUOTING_STYLE="literal"
+
+# Add custom scripts and utilities to PATH
+export PATH="${PATH}:${HOME}/.local/bin:"
+
+# Avoid errors about the accessibility bus
+export NO_AT_BRIDGE=1
+
+# Fix Java GUI applications for tiling window managers
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# Source unversioned local customizations if they exist
+if [ -f .profile.local ]; then
+	source .profile.local
+fi
