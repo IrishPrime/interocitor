@@ -70,5 +70,5 @@ graphical_packages: []
 headless_packages: []
 
 theme: nord
-user: irish
-group: irish
+user: "{{ lookup('env', 'USER') }}"
+group: "{{ lookup('env', 'USER') }}"
