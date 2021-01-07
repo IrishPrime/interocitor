@@ -7,7 +7,6 @@ graphical_packages:
   - asoundconf
   - atool
   - autorandr
-  - bspwm
   - chromium
   - deluge-gtk
   - dunst
@@ -24,7 +23,6 @@ graphical_packages:
   - m4
   - meld
   - mpc
-  - mpd
   - mpv
   - nerd-fonts-dejavu-complete
   - nitrogen
