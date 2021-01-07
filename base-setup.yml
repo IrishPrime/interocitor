@@ -1,8 +1,14 @@
 ---
-- name: Base system configuration
+- name: Install and configure shared resources
   hosts: all
   become: yes
   roles:
     - { role: common, tags: common }
     - { role: bash, tags: bash }
+    - { role: vim, tags: vim }
+
+- name: Install and configure graphical resources
+  hosts: graphical
+  become: yes
+  roles:
     - { role: bspwm, tags: bspwm }

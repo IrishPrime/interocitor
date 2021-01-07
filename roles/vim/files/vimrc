@@ -1,0 +1,255 @@
+" Plugin Management {{{
+packadd! matchit
+call plug#begin('~/.vim/plugged/')
+
+" GitHub repos
+Plug 'arcticicestudio/nord-vim'
+Plug 'dense-analysis/ale'
+Plug 'IrishPrime/WhiteWash.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'majutsushi/tagbar'
+Plug 'mhinz/vim-startify'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'ryanoasis/vim-devicons'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" }}}
+
+" Options {{{
+set autowrite
+set background=dark
+set backspace=indent,eol,start
+set breakindent
+set cursorline
+set diffopt+=vertical
+set encoding=utf-8
+set fillchars+=vert:│,fold:-,diff:-
+set foldmethod=indent
+set guifont=DejaVu\ Sans\ Mono\ 12
+set guioptions-=L
+set guioptions-=m
+set guioptions-=r
+set guioptions-=T
+set hidden
+set history=50
+set ignorecase
+set incsearch
+set laststatus=2
+set linebreak
+set listchars=tab:→\ ,eol:¬
+set nohlsearch
+set nojoinspaces
+set number relativenumber
+set path+=**
+set showcmd
+set showmatch
+set noshowmode
+set smartcase
+set statusline=%F%m%r%h%w\ [%n]%=%y\ [%4l,%3v\ %p%%] " Unused with statusline plugins
+set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+set tags+=tags,.git/tags,/
+set t_Co=256
+set wildmenu
+set wildignore+=*.o,*.swp,*.class,*.pyc,dist/*,build/*,.sass-cache/*,__pycache__/*
+set wildmode=list:longest,full
+set wrap
+set viminfo='100,n$HOME/.vim/viminfo
+scriptencoding utf-8
+syntax on
+
+" Mouse support, just in case
+if has('mouse')
+	set mouse=a
+endif
+" }}}
+
+" Add more list styles {{{
+set formatlistpat=^\\s*[\\[({]\\\?\\([0-9]\\+\\\|[iIvVxXlLcCdDmM]\\+\\\|[a-zA-Z]\\)[\\]:.)}]\\s\\+\\\|^\\s*[-+o*]\\s\\+
+" }}}
+
+" Auto commands {{{
+if has('autocmd')
+	filetype plugin indent on
+
+	if exists('+omnifunc')
+		autocmd Filetype *
+			\if &omnifunc == "" |
+			\	setlocal omnifunc=syntaxcomplete#Complete |
+			\endif
+	endif
+
+	" Automatic spell-checking for *.txt buffers, annoying with help files
+	"autocmd BufEnter,BufNew *.txt set spell spelllang=en_us
+
+	autocmd BufNewFile *.spec   0r $HOME/Templates/RPM.spec
+	autocmd BufNewFile *.*htm*  0r $HOME/Templates/XHTML.xhtml
+	autocmd BufNewFile Makefile 0r $HOME/Templates/Makefile
+
+	augroup incsearch_highlight
+		autocmd!
+		autocmd CmdlineEnter /,\? set hlsearch
+		autocmd CmdlineLeave /,\? set nohlsearch
+	augroup END
+endif
+" }}}
+
+" Functions {{{
+function! NeatFoldText()
+	let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+	let lines_count = v:foldend - v:foldstart + 1
+	let lines_count_text = '| ' . printf('%10s', lines_count . ' lines') . ' |'
+	let foldchar = matchstr(&fillchars, 'fold:\zs.')
+	let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+	let foldtextend = lines_count_text . repeat(foldchar, 8)
+	let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+	return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
+" }}}
+
+" Mappings {{{
+" Mapping to edit vimrc
+nmap <Leader>v :tabedit $MYVIMRC<CR>
+
+" Mappings for fzf.vim
+nmap <C-p> :Files<CR>
+
+" Mapping from sensible.vim. :nohlsearch and update diffs {{{
+if maparg('<C-L>', 'n') ==# ''
+	nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+" }}}
+
+" Mappings to navigate my C style {{{
+:map [[ ?{<CR>w99[{
+:map ][ /}<CR>b99]}
+:map ]] j0[[%/{<CR>
+:map [] k$][%?}<CR>
+" }}}
+
+" Mappings to make the global register less annoying {{{
+if has('clipboard')
+	map <Leader>p :set paste<CR>"+]p<Esc>:set nopaste<CR>
+	map <Leader>P :set paste<CR>"+]P<Esc>:set nopaste<CR>
+	map <Leader>y "+y
+	map <Leader>Y "+Y
+else
+	map <Leader>p :set paste<CR>:r !xsel -ob<Esc>:set nopaste<CR>
+	map <Leader>P :set paste<CR>:-1r !xsel -ob<Esc>:set nopaste<CR>
+	map <Leader>y :w !xsel -ib<CR><CR>
+	map <Leader>Y <S-v>:w !xsel -ib<CR><CR>
+endif
+" }}}
+
+" Mappings and commands for dates/times {{{
+imap <Leader>ymd <C-R>=strftime("%Y.%m.%d")<CR>
+imap <Leader>mdy <C-R>=strftime("%m.%d.%Y")<CR>
+imap <Leader>ndy <C-R>=strftime("%b %d, %Y")<CR>
+imap <Leader>hms <C-R>=strftime("%T")<CR>
+imap <Leader>ynd <C-R>=strftime("%Y %b %d")<CR>
+com! YMD :norm! i<C-R>=strftime("%Y.%m.%d")<CR>
+com! MDY :norm! i<C-R>=strftime("%m.%d.%Y")<CR>
+com! NDY :norm! i<C-R>=strftime("%b %d, %Y")<CR>
+com! HMS :norm! i<C-R>=strftime("%T")<CR>
+com! YND :norm! i<C-R>=strftime("%Y %b %d")<CR>
+" }}}
+
+" Mapping to open a Quickfix window for the last search
+nnoremap <silent> <Leader>q :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+
+" Mapping to add FIXME, TODO, XXX lines in the current buffer to the Quickfix list
+nnoremap <Leader>f :vimgrep /FIXME\\|TODO\\|XXX/ %<CR>
+
+" Mapping to play recordings on a visual range
+nnoremap Q @q
+vnoremap Q :norm @q<cr>
+
+" Mapping to toggle the toolbar and menu in gVim {{{
+map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+	\set guioptions-=T <Bar>
+	\set guioptions-=m <Bar>
+\else <Bar>
+	\set guioptions+=T <Bar>
+	\set guioptions+=m <Bar>
+\endif<CR>
+" }}}
+
+" Mapping to toggle Tagbar tag browser
+map <F4> :TagbarToggle<CR>
+
+" Mapping to switch between .c and .h files
+map <F5> :e %:p:s,.h$,.X123X,:s,.c$,.h,:s,.X123X$,.c,<CR>
+
+" Mapping to toggle spell checking
+map <F7> :set spell!<CR>
+
+" Mapping to show syntax item under cursor {{{
+map <F9> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+			\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+			\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" }}}
+" }}}
+
+" Plugin Options {{{
+" GetLatestVimScripts
+let g:GetLatestVimScripts_allowautoinstall=1
+
+" Airline {{{
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'nord'
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
+" }}}
+
+" ALE {{{
+let g:ale_completion_enabled = 1
+let g:ale_fixers = {
+			\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+			\ 'terraform': ['terraform']
+			\ }
+let g:ale_fix_on_save = 1
+let g:ale_use_global_executables = 1
+set omnifunc=ale#completion#OmniFunc
+" }}}
+
+" The Silver Searcher {{{
+if executable('ag')
+	" Use ag over grep
+	set grepprg=ag\ --nogroup\ --nocolor\ --column
+	set grepformat=%f:%l:%c%m
+endif
+" }}}
+
+" Startify {{{
+let g:startify_bookmarks = [ {'v': $MYVIMRC} ]
+let g:startify_custom_header = []
+let g:startify_change_to_vcs_root = 1
+" }}}
+
+" Colorscheme
+" https://github.com/lifepillar/vim-solarized8
+if has('termguicolors') && ($STY != '')
+	set termguicolors
+endif
+
+" set Vim-specific sequences for RGB colors
+let &t_8f = '\<Esc>[38;2;%lu;%lu;%lum'
+let &t_8b = '\<Esc>[48;2;%lu;%lu;%lum'
+" let g:solarized_termtrans = 1
+" let g:solarized_use16 = 1
+colorscheme nord
+
+if g:colors_name ==? 'nord'
+	highlight Comment ctermfg=red cterm=italic guifg=#BF616A
+endif
+" }}}
+
+" vim: foldmethod=marker
