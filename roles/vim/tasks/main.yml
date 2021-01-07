@@ -21,7 +21,7 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0755
+    mode: 0775
   with_items:
     - after/ftplugin/
     - autoload/
