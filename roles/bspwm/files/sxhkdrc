@@ -1,0 +1,193 @@
+# Config {{{
+# Reload sxhkd configuration
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# Quit bspwm
+super + alt + Escape
+	pkill -x panel; bspc quit
+
+# Reload or quit bspwm
+#super + alt + {_,shift + }Escape
+#	pkill -x panel; \
+#	{bspc query -T > "$BSPWM_TREE"; \
+#		bspc query -H > "$BSPWM_HISTORY"; \
+#			bspc query -S > "$BSPWM_STACK"; \
+#			bspc quit, \
+#	bspc quit 1}
+
+# Modify window gap
+super + {minus,equal}
+	bspc config -d focused window_gap $(($(bspc config -d focused window_gap) {-,+} 2))
+# }}}
+
+# Monitor {{{
+super + ctrl + {n,p}
+	bspc monitor --focus {next,prev}
+# }}}
+
+# Desktop {{{
+super + t
+	bspc desktop --layout next
+
+super + u
+	bspc desktop --focus next.urgent; \
+	bspc node --focus next.urgent
+
+super + bracket{left,right}
+	bspc desktop --focus {prev,next}
+
+super + ctrl + {_,shift + }space
+	bspc {node --presel cancel,desktop --cancel-presel}
+
+super + {_,shift + }{1-9,0}
+	bspc {desktop --focus,node --to-desktop} focused:^{1-9,10}
+# }}}
+
+# Node {{{
+super + shift + c
+	bspc node --close
+
+super + {f,s,d}
+	bspc node --state "~{floating,fullscreen,pseudo_tiled}"
+
+super + {x,a,c}
+	bspc node --flag "{sticky,private,locked}"
+
+super + {grave,Tab}
+	bspc {desktop,node} --focus last
+
+super + {comma,period}
+	bspc node @focused:/ --circulate {backward,forward}
+
+super + ctrl + {comma,period}
+	bspc node @focused:/ --rotate {270,90}
+
+super + {z,v}
+	bspc node @focused:/ --flip {horizontal,vertical}
+
+super + apostrophe
+	bspc node --swap last
+
+super + m
+	bspc node --swap biggest
+
+super + {o,i}
+	bspc wm --record-history off; \
+	bspc node {older,newer} -f; \
+	bspc wm --record-history on
+
+super + y
+	bspc node --to-node last.!automatic
+
+super + {_,shift + }{h,j,k,l}
+	bspc node --{focus,swap} {west,south,north,east}
+
+super + {n,p}
+	bspc node --focus {next,prev}.local.!hidden.window
+
+super + ctrl + bracket{left,right}
+	bspc node --to-monitor {next,prev}
+
+super + ctrl + {h,j,k,l}
+	bspc node --presel-dir "~{west,south,north,east}"
+
+super + alt + {h,j,k,l}
+	bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
+
+super + alt + shift + {h,j,k,l}
+	bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
+
+super + b
+	bspc node @focused:/ --balance
+
+super + q
+	bspc node @focused:/ --equalize
+
+super + ctrl + {1-9}
+	bspc node --presel-ratio 0.{1-9}
+# }}}
+
+# Launchers {{{
+super + space
+	rofi -width -100 -modi combi -show combi -combi-modi "window,drun,run,ssh"
+
+super + Return
+	$TERMINAL
+
+super + w
+	$BROWSER
+
+super + e
+	$FILE_BROWSER
+
+ctrl + alt + Delete
+	$TERMINAL --title htop -e htop
+
+super + slash
+	dm-tool lock
+# }}}
+
+# Special keys {{{
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	amixer -D pulse set Master 5%{+,-}
+
+XF86AudioMute
+	amixer set Master toggle
+
+{XF86AudioPrev,XF86AudioNext}
+	mpc {prev,next}
+
+XF86AudioPlay
+	mpc toggle; \
+	mpc-notification.sh
+
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	light -{A,U} 5
+
+XF86Battery
+	battery.sh
+
+XF86HomePage
+	$BROWSER
+
+XF86Search
+	$FILE_BROWSER
+
+XF86Mail
+	$MAIL_CLIENT
+
+XF86Calculator
+	$CALCULATOR
+
+XF86Launch5
+	$TERMINAL
+
+XF86Launch6
+	$VISUAL
+
+XF86Launch7
+	$IM_CLIENT
+
+XF86Launch8
+	$IRC_CLIENT
+
+XF86Launch9
+	$MUSIC_PLAYER
+
+XF86Favorites
+	$VIRTUALIZATION
+
+super + Print
+	scrot '%Y-%m-%d_%H%M%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
+# }}}
+
+# Custom game stuff {{{
+ctrl + alt + shift + s
+	repeat-key.sh s
+
+ctrl + alt + shift + d
+	repeat-key.sh d
+# }}}
+
+# vim: foldmethod=marker

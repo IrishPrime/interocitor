@@ -1,29 +1,12 @@
 ---
-- name: Install bspwm
+- name: Install bspwm and sxhkd
   ansible.builtin.package:
-    name: bspwm
+    name:
+      - bspwm
+      - sxhkd
     state: present
   tags:
     - packages
-
-- name: Create bspwm user directory
-  ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.config/bspwm/"
-    state: directory
-    owner: "{{ user }}"
-    group: "{{ group }}"
-  tags:
-    - configuration
-
-- name: Copy bspwm user files
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ lookup('env', 'HOME') }}/.config/bspwm/{{ item }}"
-  with_items:
-    - autostart
-    - bspwmrc
-  tags:
-    - configuration
 
 - name: Copy bspwm-session handler
   ansible.builtin.copy:
@@ -44,3 +27,39 @@
     mode: 0644
   tags:
     - scripts
+
+- name: Create user configuration directories
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/{{ item }}/"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0775
+  with_items:
+    - bspwm
+    - sxhkd
+  tags:
+    - configuration
+
+- name: Copy bspwm user files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/bspwm/{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0664
+  with_items:
+    - autostart
+    - bspwmrc
+  tags:
+    - configuration
+
+- name: Copy sxhkd configuration
+  ansible.builtin.copy:
+    src: sxhkdrc
+    dest: "{{ lookup('env', 'HOME') }}/.config/sxhkd/"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0664
+  tags:
+    - configuration
