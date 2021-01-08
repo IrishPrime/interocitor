@@ -21,7 +21,7 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0775
+    mode: 0755
   with_items:
     - after/ftplugin/
     - autoload/
@@ -35,7 +35,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.vim/autoload/plug.vim"
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0664
+    mode: 0644
   tags:
     - configuration
     - plugins
@@ -46,7 +46,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.vim/"
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0664
+    mode: 0644
   with_items:
     - vimrc
     - after

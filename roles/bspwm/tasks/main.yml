@@ -34,7 +34,7 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0775
+    mode: 0755
   with_items:
     - bspwm
     - sxhkd
@@ -47,7 +47,7 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/bspwm/{{ item }}"
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0664
+    mode: 0644
   with_items:
     - autostart
     - bspwmrc
@@ -60,6 +60,6 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/sxhkd/"
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0664
+    mode: 0644
   tags:
     - configuration
