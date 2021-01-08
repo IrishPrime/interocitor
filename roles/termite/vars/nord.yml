@@ -1,0 +1,26 @@
+---
+colors:
+  background: rgba(46, 52, 64, 0.92)
+  cursor: "#D8DEE9"
+  cursor_foreground: "#2E3440"
+  foreground: "#D8DEE9"
+  foreground_bold: "#D8DEE9"
+  highlight: "#4C566A"
+  normal:
+    black: "#3B4252"
+    blue: "#81A1C1"
+    cyan: "#88C0D0"
+    green: "#A3BE8C"
+    magenta: "#B48EAD"
+    red: "#BF616A"
+    white: "#E5E9F0"
+    yellow: "#EBCB8B"
+  bold:
+    black: "#4C566A"
+    blue: "#81A1C1"
+    cyan: "#8FBCBB"
+    green: "#A3BE8C"
+    magenta: "#B48EAD"
+    red: "#BF616A"
+    white: "#ECEFF4"
+    yellow: "#EBCB8B"

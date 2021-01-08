@@ -12,3 +12,4 @@
   become: yes
   roles:
     - { role: bspwm, tags: bspwm }
+    - { role: termite, tags: termite }

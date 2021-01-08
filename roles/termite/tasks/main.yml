@@ -1,0 +1,33 @@
+---
+- name: Install termite
+  ansible.builtin.package:
+    name: termite
+    state: present
+  tags:
+    - packages
+
+- name: Create user configuration directories
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/termite/"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  tags:
+    - configuration
+
+- name: Load color theme
+  ansible.builtin.include_vars:
+    file: "{{ theme }}.yml"
+  tags:
+    - themes
+
+- name: Copy termite user files
+  ansible.builtin.template:
+    src: config.j2
+    dest: "{{ lookup('env', 'HOME') }}/.config/termite/config"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+  tags:
+    - configuration
