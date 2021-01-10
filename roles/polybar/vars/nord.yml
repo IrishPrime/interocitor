@@ -1,0 +1,23 @@
+---
+colors:
+  background: "#2E3440" # dark gray
+  foreground:
+    - "#D8DEE9" # light gray
+    - "#4C566A" # medium gray
+  active: "#5E81AC" # blue
+  highlight: "#EBCB8B" # yellow
+  alert: "#BF616A" # red
+  ramp:
+    - "#A3BE8C" # green
+    - "#EBCB8B" # yellow
+    - "#D08770" # orange
+  accents:
+    - "#BF616A" # red
+    - "#D08770" # orange
+    - "#EBCB8B" # yellow
+    - "#A3BE8C" # green
+    - "#8FBCBB" # teal
+    - "#88C0D0" # sky blue
+    - "#81A1C1" # light blue
+    - "#5E81AC" # blue
+    - "#B48EAD" # purple

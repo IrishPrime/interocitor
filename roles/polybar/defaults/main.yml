@@ -1,0 +1,4 @@
+---
+theme: nord
+user: "{{ lookup('env', 'USER') }}"
+group: "{{ lookup('env', 'USER') }}"

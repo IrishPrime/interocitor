@@ -1,14 +1,14 @@
 ---
-- name: Install termite
+- name: Install polybar
   ansible.builtin.package:
-    name: termite
+    name: polybar
     state: present
   tags:
     - packages
 
 - name: Create user configuration directories
   ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.config/termite/"
+    path: "{{ lookup('env', 'HOME') }}/.config/polybar/"
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
@@ -25,7 +25,7 @@
 - name: Copy user files
   ansible.builtin.template:
     src: config.j2
-    dest: "{{ lookup('env', 'HOME') }}/.config/termite/config"
+    dest: "{{ lookup('env', 'HOME') }}/.config/polybar/config"
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0644
