@@ -5,7 +5,7 @@
       - zsh
       - zsh-autosuggestions
       - zsh-completions
-      - zsh-hsitory-substring-search
+      - zsh-history-substring-search
       - zsh-syntax-highlighting
       - zsh-theme-powerlevel10k
     state: present
@@ -35,11 +35,11 @@
 - name: Copy user files
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ lookup('env', 'HOME') }}/.zsh/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.zsh/"
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0755
   with_fileglob:
-    - *.zsh
+    - "*.zsh"
   tags:
     - configuration
