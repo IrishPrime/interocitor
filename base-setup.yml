@@ -14,4 +14,5 @@
   roles:
     - { role: bspwm, tags: bspwm }
     - { role: polybar, tags: polybar }
+    - { role: rofi, tags: rofi }
     - { role: termite, tags: termite }

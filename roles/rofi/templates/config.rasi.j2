@@ -1,0 +1,9 @@
+configuration {
+	show-icons: {{ show_icons | lower }};
+	icon-theme: "{{ icon_theme }}";
+	theme: "{{ theme }}";
+	location: {{ location }};
+	xoffset: {{ xoffset }};
+	yoffset: {{ yoffset }};
+	ssh-command: "{terminal} -e '{ssh-client} {host} [-p {port}]'";
+}
