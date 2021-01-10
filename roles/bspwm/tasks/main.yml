@@ -41,13 +41,13 @@
   tags:
     - configuration
 
-- name: Copy bspwm user files
+- name: Copy user files
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ lookup('env', 'HOME') }}/.config/bspwm/{{ item }}"
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: 0644
+    mode: 0755
   with_items:
     - autostart
     - bspwmrc
