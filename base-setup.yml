@@ -6,6 +6,7 @@
     - { role: common, tags: common }
     - { role: bash, tags: bash }
     - { role: vim, tags: vim }
+    - { role: zsh, tags: zsh }
 
 - name: Install and configure graphical resources
   hosts: graphical
