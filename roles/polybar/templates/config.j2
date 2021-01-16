@@ -10,25 +10,24 @@
 {% endfor %}
 
 [global/wm]
-margin-top = 0
-margin-bottom = 0
+margin-top = {{ margin_top }}
+margin-bottom = {{ margin_bottom }}
 
 [bar/defaults]
-width = 100%
-height = 24
-line-size = 4
-module-margin = 2
-tray-padding = 4
-tray-position = right
+width = {{ width }}
+height = {{ height }}
+line-size = {{ line_size }}
+module-margin = {{ module_margin }}
+tray-padding = {{ tray_padding }}
+tray-position = {{ tray_position }}
 
-font-0 = DejaVuSans:size=10;0
-font-1 = SymbolsNerdFont:size=12;0
+{% for font in fonts %}
+font-{{ loop.index0 }} = {{ font }}
+{% endfor %}
 
 background = ${colors.background}
 foreground = ${colors.foreground-0}
 
-scroll-up = bspwm-desknext
-scroll-down = bspwm-deskprev
 wm-name = bspwm
 wm-restack = bspwm
 
@@ -70,7 +69,6 @@ modules-right = volume battery extra-battery filesystem backlight callisto-wlan 
 [bar/callisto-secondary]
 inherit = bar/defaults
 monitor = ${env:MONITOR:DP-2-1}
-width = 100
 
 modules-left = bspwm xwindow
 modules-center =
@@ -101,8 +99,10 @@ mount-1 = /home
 
 fixed-values = true
 
-label-mounted = %mountpoint%: %free% (%percentage_free%%)
+label-mounted =  %mountpoint%: %free% (%percentage_free%%)
 format-mounted = <label-mounted>
+format-mounted-padding = {{ format_padding }}
+format-mounted-prefix-foreground = ${colors.accents-1}
 format-mounted-underline = ${colors.accents-1}
 
 label-unmounted = %mountpoint%: NULL
@@ -128,23 +128,24 @@ label-focused = %name%
 label-focused-background = ${colors.background}
 label-focused-foreground = ${colors.foreground-0}
 label-focused-underline = ${colors.active}
-label-focused-padding = 2
+label-focused-padding = {{ label_padding }}
 
 label-occupied = %name%
-label-occupied-padding = 2
+label-occupied-padding = {{ label_padding }}
 
 label-urgent = %name%
 label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
+label-urgent-padding = {{ label_padding }}
 
 label-empty = %name%
 label-empty-foreground = ${colors.foreground-1}
-label-empty-padding = 2
+label-empty-padding = {{ label_padding }}
 
 [module/mpd]
 type = internal/mpd
 
 format-online = <label-song>  <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next>  <icon-repeat> <icon-random>
+format-online-padding = {{ format_padding }}
 format-online-underline = ${colors.accents-0}
 
 label-song = %artist% - %title% (%album%)
@@ -158,7 +159,6 @@ icon-play = 契
 icon-pause = 
 icon-next = 怜
 icon-seekf = 
-
 icon-random = 列
 icon-repeat = 凌
 
@@ -180,17 +180,18 @@ ramp-4 = 🌑
 bar-width = 10
 bar-indicator = ━
 bar-indicator-foreground = ${colors.highlight}
-bar-indicator-font = 2
+bar-indicator-font = 1
 bar-fill = ━
-bar-fill-font = 2
+bar-fill-font = 1
 bar-fill-foreground = ${colors.highlight}
 bar-empty = ─
-bar-empty-font = 2
+bar-empty-font = 1
 bar-empty-foreground = ${colors.foreground-1}
 
 [module/cpu]
 type = internal/cpu
 interval = 2
+format-padding = {{ format_padding }}
 format-prefix = " "
 format-prefix-foreground = ${colors.accents-4}
 format-underline = ${colors.accents-4}
@@ -198,6 +199,7 @@ format-underline = ${colors.accents-4}
 [module/memory]
 type = internal/memory
 interval = 2
+format-padding = {{ format_padding }}
 format-prefix = " "
 format-prefix-foreground = ${colors.accents-5}
 format-underline = ${colors.accents-5}
@@ -216,15 +218,25 @@ ramp-signal-5 = 😈
 
 ramp-signal-foreground = ${colors.foreground-0}
 
-label-connected = %essid% %local_ip% Up: %upspeed% Down: %downspeed%
+format-connected-padding = {{ format_padding }}
+format-connected-prefix = "直 "
 format-connected-underline = ${colors.accents-3}
+format-connected-prefix-foreground = ${colors.accents-3}
+
+label-connected = %essid% %local_ip% Up: %upspeed% Down: %downspeed%
+
+format-disconnected-padding = {{ format_padding }}
+format-disconnected-prefix = "睊 "
+format-disconnected-prefix-foreground = ${colors.alert}
+
 label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.alert}
 
 [module/ireland-network]
 inherit = network/defaults
 interface = enp4s0
-label-connected = %local_ip% Up: %upspeed% Down: %downspeed%
+format-connected-prefix = " "
+label-connected = %local_ip% ﯴ %upspeed% ﯲ %downspeed%
 
 [module/wisp-network]
 inherit = network/defaults
@@ -232,6 +244,7 @@ inherit = network/defaults
 [module/callisto-eth]
 inherit = network/defaults
 interface = enp0s31f6
+format-connected-prefix = " "
 label-connected = %local_ip% Up: %upspeed% Down: %downspeed%
 
 [module/callisto-wlan]
@@ -240,7 +253,8 @@ inherit = network/defaults
 [module/tunnel]
 inherit = network/defaults
 interface = tun0
-label-connected = %local_ip% Up: %upspeed% Down: %downspeed%
+format-connected-prefix = "旅 "
+label-connected = %local_ip% ﯴ %upspeed% ﯲ %downspeed%
 label-disconnected =
 
 [module/date]
@@ -252,6 +266,7 @@ date-alt = " %a %F"
 time = %R
 time-alt = %X
 
+format-padding = {{ format_padding }}
 format-prefix = 
 format-prefix-foreground = ${colors.accents-7}
 format-underline = ${colors.accents-7}
@@ -281,12 +296,12 @@ bar-volume-foreground-1 = ${colors.ramp-1}
 bar-volume-foreground-2 = ${colors.ramp-2}
 bar-volume-gradient = true
 bar-volume-indicator = ━
-bar-volume-indicator-font = 2
+bar-volume-indicator-font = 1
 bar-volume-indicator-foreground = ${colors.foreground-0}
 bar-volume-fill = ━
-bar-volume-fill-font = 2
+bar-volume-fill-font = 1
 bar-volume-empty = ─
-bar-volume-empty-font = 2
+bar-volume-empty-font = 1
 bar-volume-empty-foreground = ${colors.foreground-1}
 
 [battery/defaults]
@@ -332,11 +347,12 @@ battery = BAT1
 type = internal/temperature
 thermal-zone = 0
 base-temperature = 20
-warn-temperature = 60
 
 format = <ramp> <label>
+format-padding = {{ format_padding }}
 format-underline = ${colors.accents-6}
 format-warn = <ramp> <label-warn>
+format-warn-padding = {{ format_padding }}
 format-warn-underline = ${self.format-underline}
 
 label = %temperature-c%
@@ -354,24 +370,36 @@ format-underline = ${colors.alert}
 
 label-open = 
 label-open-foreground = ${colors.alert}
+label-open-padding = {{ label_padding }}
+
 label-close = 
 label-close-foreground = ${colors.alert}
+label-close-padding = {{ label_padding }}
 label-separator = ┃
 label-separator-foreground = ${colors.foreground-1}
 
 menu-0-0 = reboot
 menu-0-0-exec = menu-open-1
+menu-0-0-padding = {{ menu_padding }}
+
 menu-0-1 = power off
 menu-0-1-exec = menu-open-2
+menu-0-1-padding = {{ menu_padding }}
 
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
+menu-1-0-padding = {{ menu_padding }}
+
 menu-1-1 = reboot
 menu-1-1-exec = systemctl reboot
+menu-1-1-padding = {{ menu_padding }}
 
 menu-2-0 = power off
 menu-2-0-exec = systemctl poweroff
+menu-2-0-padding = {{ menu_padding }}
+
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+menu-2-1-padding = {{ menu_padding }}
 
 # vim:ft=dosini.jinja2

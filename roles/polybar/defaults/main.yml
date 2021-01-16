@@ -2,3 +2,20 @@
 theme: nord
 user: "{{ lookup('env', 'USER') }}"
 group: "{{ lookup('env', 'USER') }}"
+
+fonts:
+  - 'DejaVuSans:size=10;0'
+  - 'SymbolsNerdFont:size=12;0'
+
+margin_bottom: 0
+margin_top: 0
+width: 100%
+height: 24
+line_size: 4
+
+format_padding: 1
+label_padding: 2
+menu_padding: 2
+module_margin: 1
+tray_padding: 4
+tray_position: right
