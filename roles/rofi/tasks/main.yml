@@ -17,7 +17,7 @@
   tags:
     - configuration
 
-- name: Template user files
+- name: Copy configuration file
   ansible.builtin.template:
     src: config.rasi.j2
     dest: "{{ lookup('env', 'HOME') }}/.config/rofi/config.rasi"

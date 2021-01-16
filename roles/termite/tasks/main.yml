@@ -22,7 +22,7 @@
   tags:
     - themes
 
-- name: Copy user files
+- name: Copy configuration file
   ansible.builtin.template:
     src: config.j2
     dest: "{{ lookup('env', 'HOME') }}/.config/termite/config"
