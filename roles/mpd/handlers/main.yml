@@ -1,0 +1,8 @@
+---
+- name: Restart mpd
+  ansible.builtin.systemd:
+    name: mpd
+    enabled: yes
+    scope: user
+    state: restarted
+  become: no

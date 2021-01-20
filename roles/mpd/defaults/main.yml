@@ -1,0 +1,49 @@
+---
+user: "{{ lookup('env', 'USER') }}"
+group: "{{ lookup('env', 'USER') }}"
+
+# Files and directories
+files:
+  music_directory: ~/Music
+  playlist_directory: ~/.config/mpd/playlists
+  db_file: ~/.config/mpd/database
+  log_file: ~/.config/mpd/log
+  pid_file: ~/.config/mpd/pid
+  state_file: ~/.config/mpd/state
+  sticker_file: ~/.config/mpd/sticker.sql
+
+# General music daemon options
+daemon:
+  user: "{{ lookup('env', 'USER') }}"
+  group: "{{ lookup('env', 'USER') }}"
+  bind_to_address: any
+  port: 6600
+  log_level: default
+  restore_paused: "no"
+  save_absolute_paths_in_playlists: "no"
+  metadata_to_use: artist,album,title,track,name,genre,date,composer,performer,disc
+  auto_update: "yes"
+  auto_update_depth: 3
+
+# Symbolic link behavior
+symlinks:
+  follow_outside: "yes"
+  follow_inside: "yes"
+
+# Zeroconf / Avahi Service Discovery
+zeroconf:
+  enabled: "yes"
+  name: Music Player @ %h
+
+# Audio Output
+output:
+  type: pulse
+  name: Pulse Output
+
+# Normalization (automatic volume adjustments)
+normalization:
+  replaygain: album
+  replaygain_preamp: 0
+  replaygain_missing_preamp: 0
+  replaygain_limit: "yes"
+  volume_normalization: "no"

@@ -13,6 +13,7 @@
   become: yes
   roles:
     - { role: bspwm, tags: bspwm }
+    - { role: mpd, tags: mpd }
     - { role: polybar, tags: polybar }
     - { role: rofi, tags: rofi }
     - { role: termite, tags: termite }

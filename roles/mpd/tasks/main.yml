@@ -1,0 +1,63 @@
+---
+- name: Install mpd and mpc
+  ansible.builtin.package:
+    name:
+      - mpc
+      - mpd
+    state: present
+  tags:
+    - packages
+
+- name: Create user configuration directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  with_items:
+    - "{{ lookup('env', 'HOME') }}/.config/mpd/"
+    - "{{ files.music_directory }}"
+    - "{{ files.playlist_directory }}"
+  become: no
+  tags:
+    - configuration
+
+- name: Create user configuration files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: file
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+  with_items:
+    - "{{ files.db_file }}"
+    - "{{ files.log_file }}"
+    - "{{ files.pid_file }}"
+    - "{{ files.state_file }}"
+    - "{{ files.sticker_file }}"
+  become: no
+  tags:
+    - configuration
+
+- name: Copy configuration file
+  ansible.builtin.template:
+    src: mpd.conf.j2
+    dest: "{{ lookup('env', 'HOME') }}/.config/mpd/mpd.conf"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+  become: no
+  notify: Restart mpd
+  tags:
+    - configuration
+
+- name: Start and enable user service
+  ansible.builtin.systemd:
+    name: mpd
+    enabled: yes
+    scope: user
+    state: started
+  become: no
+  tags:
+    - service

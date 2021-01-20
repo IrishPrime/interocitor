@@ -1,0 +1,33 @@
+# Files and directories
+{% for key, value in files.items() %}
+{{ key }} "{{ value }}"
+{% endfor %}
+
+# General music daemon options
+{% for key, value in daemon.items() %}
+{{ key }} "{{ value }}"
+{% endfor %}
+
+# Symbolic link behavior
+follow_outside_symlinks "{{ symlinks.follow_outside }}"
+follow_inside_symlinks "{{ symlinks.follow_inside }}"
+
+# Zeroconf / Avahi Service Discovery
+zeroconf_enabled "{{ zeroconf.enabled }}"
+zeroconf_name "{{ zeroconf.name }}"
+
+# Input
+input {
+	plugin "curl"
+}
+
+# Audio Output
+audio_output {
+	type "{{ output.type }}"
+	name "{{ output.name }}"
+}
+
+# Normalization (automatic volume adjustments)
+{% for key, value in normalization.items() %}
+{{ key }} "{{ value }}"
+{% endfor %}
