@@ -1,3 +1,23 @@
 ---
 user: "{{ lookup('env', 'USER') }}"
 group: "{{ lookup('env', 'USER') }}"
+
+config:
+  border_width: 2
+  window_gap: 14
+  split_ratio: 0.5
+  borderless_monocle: "true"
+  focus_follows_pointer: "true"
+  gapless_monocle: "true"
+  single_monocle: "true"
+  pointer_follows_monitor: "true"
+  remove_disabled_monitors: "true"
+  remove_unplugged_monitors: "true"
+  active_border_color: "#8FBCBB"
+  focused_border_color: "#5E81AC"
+  normal_border_color: "#4C566A"
+  presel_feedback_color: "#4C566A"
+
+rules:
+  - "Chromium:crx_gaedmjdfmmahhbjefcbgaolhhanlaolb state=floating # Authy Extension"
+  - "mpv state=floating"

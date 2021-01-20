@@ -87,7 +87,7 @@ super + {n,p}
 	bspc node --focus {next,prev}.local.!hidden.window
 
 super + ctrl + bracket{left,right}
-	bspc node --to-monitor {next,prev}
+	bspc node --to-monitor {prev,next}
 
 super + ctrl + {h,j,k,l}
 	bspc node --presel-dir "~{west,south,north,east}"
