@@ -35,7 +35,7 @@ enable-ipc = true
 
 [bar/ireland-primary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:DP-0.1}
+monitor = ${env:MONITOR:DP-0}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -43,7 +43,17 @@ modules-right = mpd filesystem ireland-network tunnel cpu memory temperature dat
 
 [bar/ireland-secondary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:DP-0.8}
+monitor = ${env:MONITOR:DP-4.1.8}
+
+modules-left = bspwm xwindow
+modules-center =
+modules-right = mpd filesystem ireland-network cpu memory temperature date powermenu
+
+tray-position = none
+
+[bar/ireland-tertiary]
+inherit = bar/defaults
+monitor = ${env:MONITOR:DP-4.8}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -111,35 +121,64 @@ label-unmounted-foreground = ${colors.alert}
 [module/bspwm]
 type = internal/bspwm
 fuzzy-match = true
-format = <label-state> <label-mode>
-ws-icon-default = ○
-ws-icon-0 = 
-ws-icon-1 = 
-ws-icon-2 = 
-ws-icon-3 = 
-ws-icon-4 = 
-ws-icon-5 = 
-ws-icon-6 = 
-ws-icon-7 = 
-ws-icon-8 = 
-ws-icon-9 = 
 
-label-focused = %name%
+format = <label-state>  <label-mode>
+format-prefix = {{ bspwm.prefix }}
+format-prefix-foreground = ${colors.accents-7}
+format-prefix-underline = ${colors.accents-7}
+format-prefix-padding = {{ format_padding }}
+
+label-focused = %icon%
 label-focused-background = ${colors.background}
 label-focused-foreground = ${colors.foreground-0}
 label-focused-underline = ${colors.active}
 label-focused-padding = {{ label_padding }}
 
-label-occupied = %name%
+label-occupied = %icon%
 label-occupied-padding = {{ label_padding }}
 
-label-urgent = %name%
+label-urgent = %icon%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = {{ label_padding }}
 
-label-empty = %name%
+label-empty = %icon%
 label-empty-foreground = ${colors.foreground-1}
 label-empty-padding = {{ label_padding }}
+
+# Workspace icons
+ws-icon-default = ○
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 0;
+
+# Node states
+label-floating = 
+label-floating-padding = {{ format_padding }}
+label-fullscreen = 
+label-fullscreen-padding = {{ format_padding }}
+label-monocle = 
+label-monocle-padding = {{ format_padding }}
+label-pseudotiled = 
+label-pseudotiled-padding = {{ format_padding }}
+label-tiled = 
+label-tiled-padding = {{ format_padding }}
+
+# Node flags
+label-locked = 
+label-locked-padding = {{ format_padding }}
+label-marked = 
+label-marked-padding = {{ format_padding }}
+label-private = 
+label-private-padding = {{ format_padding }}
+label-sticky = 
+label-sticky-padding = {{ format_padding }}
 
 [module/mpd]
 type = internal/mpd

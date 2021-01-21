@@ -12,6 +12,7 @@ case $(hostnamectl --static) in
 	ireland)
 		polybar --reload ireland-primary &
 		polybar --reload ireland-secondary &
+		polybar --reload ireland-tertiary &
 		pasystray &
 		;;
 	wisp)

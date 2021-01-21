@@ -19,3 +19,6 @@ menu_padding: 2
 module_margin: 1
 tray_padding: 4
 tray_position: right
+
+bspwm:
+  prefix: 
