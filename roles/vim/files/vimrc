@@ -11,6 +11,7 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-startify'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'prabirshrestha/vim-lsp'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
@@ -34,7 +35,7 @@ set breakindent
 set cursorline
 set diffopt+=vertical
 set encoding=utf-8
-set fillchars+=vert:│,fold:-,diff:-
+set fillchars=vert:│,fold:─,diff:-,eob:~
 set foldmethod=indent
 set guifont=DejaVu\ Sans\ Mono\ 12
 set guioptions-=L
@@ -45,13 +46,15 @@ set hidden
 set history=50
 set ignorecase
 set incsearch
+set isfname-==
 set laststatus=2
 set linebreak
-set listchars=tab:→\ ,eol:¬
+set listchars=tab:⋮\ ,eol:¬
 set nohlsearch
 set nojoinspaces
 set number relativenumber
-set path+=**
+" set path+=**
+set shortmess+=c
 set showcmd
 set showmatch
 set noshowmode
@@ -82,19 +85,28 @@ set formatlistpat=^\\s*[\\[({]\\\?\\([0-9]\\+\\\|[iIvVxXlLcCdDmM]\\+\\\|[a-zA-Z]
 if has('autocmd')
 	filetype plugin indent on
 
+	source ~/.vim/gzip.vim
+
 	if exists('+omnifunc')
-		autocmd Filetype *
-			\if &omnifunc == "" |
-			\	setlocal omnifunc=syntaxcomplete#Complete |
-			\endif
+		augroup omnifunc
+			autocmd!
+			autocmd Filetype *
+				\if &omnifunc == "" |
+				\	setlocal omnifunc=syntaxcomplete#Complete |
+				\endif
+		augroup END
 	endif
 
 	" Automatic spell-checking for *.txt buffers, annoying with help files
 	"autocmd BufEnter,BufNew *.txt set spell spelllang=en_us
 
-	autocmd BufNewFile *.spec   0r $HOME/Templates/RPM.spec
-	autocmd BufNewFile *.*htm*  0r $HOME/Templates/XHTML.xhtml
-	autocmd BufNewFile Makefile 0r $HOME/Templates/Makefile
+	augroup new_from_template
+		autocmd!
+		autocmd BufNewFile *.py     0r $HOME/Templates/Python.py
+		autocmd BufNewFile *.spec   0r $HOME/Templates/RPM.spec
+		autocmd BufNewFile *.*htm*  0r $HOME/Templates/XHTML.xhtml
+		autocmd BufNewFile Makefile 0r $HOME/Templates/Makefile
+	augroup END
 
 	augroup incsearch_highlight
 		autocmd!
@@ -108,12 +120,12 @@ endif
 function! NeatFoldText()
 	let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
 	let lines_count = v:foldend - v:foldstart + 1
-	let lines_count_text = '| ' . printf('%10s', lines_count . ' lines') . ' |'
+	let lines_count_text = printf(' %4d lines ', lines_count)
 	let foldchar = matchstr(&fillchars, 'fold:\zs.')
-	let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+	let foldtextstart = strpart('  ' . repeat(foldchar, v:foldlevel * 2) . line, 0, (winwidth(0) * 2) / 3)
 	let foldtextend = lines_count_text . repeat(foldchar, 8)
 	let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-	return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+	return foldtextstart . repeat(foldchar, winwidth(0) - foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
 " }}}
@@ -123,19 +135,22 @@ set foldtext=NeatFoldText()
 nmap <Leader>v :tabedit $MYVIMRC<CR>
 
 " Mappings for fzf.vim
-nmap <C-p> :Files<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <Leader>gf :GFiles<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>t :Tags<CR>
 
 " Mapping from sensible.vim. :nohlsearch and update diffs {{{
 if maparg('<C-L>', 'n') ==# ''
-	nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+	nnoremap <Silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 " }}}
 
 " Mappings to navigate my C style {{{
-:map [[ ?{<CR>w99[{
-:map ][ /}<CR>b99]}
-:map ]] j0[[%/{<CR>
-:map [] k$][%?}<CR>
+map [[ ?{<CR>w99[{
+map ][ /}<CR>b99]}
+map ]] j0[[%/{<CR>
+map [] k$][%?}<CR>
 " }}}
 
 " Mappings to make the global register less annoying {{{
@@ -166,17 +181,26 @@ com! YND :norm! i<C-R>=strftime("%Y %b %d")<CR>
 " }}}
 
 " Mapping to open a Quickfix window for the last search
-nnoremap <silent> <Leader>q :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+nnoremap <silent> <leader>/ :execute 'grep ' . getreg("/") . ' %'<CR>:copen<CR>
+
+" Mapping to open a Quickfix window with vimgrep results of last search in files with the same extension
+nnoremap <silent> <leader>q :execute 'grep ' . getreg("/") . ' **/*.' . expand('%:e')<CR>:copen<CR>
 
 " Mapping to add FIXME, TODO, XXX lines in the current buffer to the Quickfix list
-nnoremap <Leader>f :vimgrep /FIXME\\|TODO\\|XXX/ %<CR>
+nnoremap <leader>f :vimgrep /FIXME\\|TODO\\|XXX/ %<CR>
+
+" Start new change sequence before deleting in insert mode
+inoremap <C-u> <C-g>u<C-u>
+inoremap <C-w> <C-g>u<C-w>
+inoremap , <C-g>u,
+inoremap . <C-g>u.
 
 " Mapping to play recordings on a visual range
 nnoremap Q @q
 vnoremap Q :norm @q<cr>
 
 " Mapping to toggle the toolbar and menu in gVim {{{
-map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+map <Silent> <F2> :if &guioptions =~# 'T' <Bar>
 	\set guioptions-=T <Bar>
 	\set guioptions-=m <Bar>
 \else <Bar>
@@ -208,24 +232,31 @@ let g:GetLatestVimScripts_allowautoinstall=1
 " Airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'nord'
+let g:airline#extensions#fugitiveline#enabled = 1
+let g:airline#extensions#fzf#enabled = 1
+let g:airline#extensions#hunks#coc_git = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
 " }}}
 
 " ALE {{{
 let g:ale_completion_enabled = 1
 let g:ale_fixers = {
-			\ '*': ['remove_trailing_lines', 'trim_whitespace'],
-			\ 'terraform': ['terraform']
-			\ }
+	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+	\ 'terraform': ['terraform'],
+	\ 'python': [ 'add_blank_lines_for_python_control_statements', 'reorder-python-imports' ]
+	\ }
 let g:ale_fix_on_save = 1
 let g:ale_use_global_executables = 1
+let g:ale_python_auto_pipenv = 1
 set omnifunc=ale#completion#OmniFunc
 " }}}
 
-" The Silver Searcher {{{
-if executable('ag')
+" Ripgrep {{{
+if executable('rg')
 	" Use ag over grep
-	set grepprg=ag\ --nogroup\ --nocolor\ --column
+	set grepprg=rg\ --vimgrep
 	set grepformat=%f:%l:%c%m
 endif
 " }}}
@@ -238,7 +269,7 @@ let g:startify_change_to_vcs_root = 1
 
 " Colorscheme
 " https://github.com/lifepillar/vim-solarized8
-if has('termguicolors') && ($STY != '')
+if has('termguicolors') && ($STY !=? '')
 	set termguicolors
 endif
 
@@ -251,6 +282,7 @@ colorscheme nord
 
 if g:colors_name ==? 'nord'
 	highlight Comment ctermfg=red cterm=italic guifg=#BF616A
+	highlight Visual ctermbg=8
 endif
 " }}}
 
