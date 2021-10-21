@@ -245,7 +245,7 @@ let g:ale_completion_enabled = 1
 let g:ale_fixers = {
 	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
 	\ 'terraform': ['terraform'],
-	\ 'python': [ 'add_blank_lines_for_python_control_statements', 'reorder-python-imports' ]
+	\ 'python': [ 'reorder-python-imports' ]
 	\ }
 let g:ale_fix_on_save = 1
 let g:ale_use_global_executables = 1
