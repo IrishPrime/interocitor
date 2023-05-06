@@ -2,10 +2,13 @@
 - name: Install standard bash files
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ lookup('env', 'HOME') }}/.{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.{{ item | basename }}"
     owner: "{{ user }}"
     group: "{{ group }}"
+    mode: 0750
   with_fileglob:
     - bash*
   tags:
     - configuration
+
+# vim: filetype=yaml.ansible
