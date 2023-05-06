@@ -1,0 +1,37 @@
+---
+- name: Install NeoVim
+  ansible.builtin.package:
+    name:
+      - neovim
+      - python-pynvim
+    state: present
+  tags:
+    - packages
+
+- name: Create local runtime directories
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/nvim/{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  with_items:
+    - after/ftplugin/
+    - ftplugin/
+    - lua/irish/
+  tags:
+    - configuration
+
+- name: Copy NeoVim configuration files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/nvim/{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  with_fileglob:
+    - after/ftplugin/*
+    - ftplugin/*
+    - lua/irish/*
+
+# vim: filetype=yaml.ansible

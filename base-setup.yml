@@ -5,7 +5,7 @@
   roles:
     - {role: common, tags: common}
     - {role: bash, tags: bash}
-    - {role: vim, tags: vim}
+    - {role: neovim, tags: neovim}
     - {role: zsh, tags: zsh}
 
 - name: Install and configure graphical resources
