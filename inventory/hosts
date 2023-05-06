@@ -4,21 +4,25 @@ all:
     localhost:
       ansible_connection: local
   children:
-    personal:
-      hosts:
-        ireland:
-        banshee:
-        wisp:
-    work:
-      hosts:
-        callisto:
     graphical:
       hosts:
-        ireland:
+        baile-mor:
         callisto:
+        ireland:
+        tir-na-nog:
         wisp:
     headless:
       hosts:
         banshee:
+    personal:
+      hosts:
+        banshee:
+        ireland:
+        tir-na-nog:
+        wisp:
+    work:
+      hosts:
+        baile-mor:
+        callisto:
 
-# vim: filetype=yaml
+# vim: filetype=yaml.ansible_hosts
