@@ -1,19 +1,21 @@
 ---
 - name: Install and configure shared resources
   hosts: all
-  become: yes
+  become: true
   roles:
-    - { role: common, tags: common }
-    - { role: bash, tags: bash }
-    - { role: vim, tags: vim }
-    - { role: zsh, tags: zsh }
+    - {role: common, tags: common}
+    - {role: bash, tags: bash}
+    - {role: vim, tags: vim}
+    - {role: zsh, tags: zsh}
 
 - name: Install and configure graphical resources
   hosts: graphical
-  become: yes
+  become: true
   roles:
-    - { role: bspwm, tags: bspwm }
-    - { role: mpd, tags: mpd }
-    - { role: polybar, tags: polybar }
-    - { role: rofi, tags: rofi }
-    - { role: termite, tags: termite }
+    - {role: bspwm, tags: bspwm}
+    - {role: mpd, tags: mpd}
+    - {role: polybar, tags: polybar}
+    - {role: rofi, tags: rofi}
+    - {role: kitty, tags: kitty}
+
+# vim: filetype=yaml.ansible

@@ -1,0 +1,35 @@
+---
+- name: Install kitty
+  ansible.builtin.package:
+    name:
+      - kitty
+    state: present
+  tags:
+    - packages
+
+- name: Create user configuration directories
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/{{ item }}/"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  with_items:
+    - kitty
+  tags:
+    - configuration
+
+- name: Copy user files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/kitty/{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0755
+  with_items:
+    - kitty.conf
+    - nord.conf
+  tags:
+    - configuration
+
+# vim: filetype=yaml.ansible
