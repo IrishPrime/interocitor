@@ -7,13 +7,16 @@
   tags:
     - packages
 
-- name: Create user configuration directory
+- name: Create user configuration directories
   ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.config/rofi/"
+    path: "{{ lookup('env', 'HOME') }}/{{ item }}"
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0755
+  loop:
+    - .config/rofi/
+    - .local/share/rofi/themes/
   tags:
     - configuration
 
@@ -27,10 +30,10 @@
   tags:
     - configuration
 
-- name: Copy user files
+- name: Copy theme files
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ lookup('env', 'HOME') }}/.config/rofi/"
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/rofi/themes/"
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0644
@@ -38,3 +41,5 @@
     - "*.rasi"
   tags:
     - configuration
+
+# vim: filetype=yaml.ansible

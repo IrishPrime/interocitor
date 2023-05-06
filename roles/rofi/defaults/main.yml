@@ -2,9 +2,9 @@
 user: "{{ lookup('env', 'USER') }}"
 group: "{{ lookup('env', 'USER') }}"
 
+font: DejaVu Sans Mono 10
 icon_theme: Papirus-Dark-nordic-blue-folders
-location: 2
 show_icons: true
-theme: nord
-xoffset: 0
-yoffset: 360
+theme: nord-irish
+
+# vim: filetype=yaml.ansible

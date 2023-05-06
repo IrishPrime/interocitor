@@ -1,9 +1,26 @@
 configuration {
-	show-icons: {{ show_icons | lower }};
-	icon-theme: "{{ icon_theme }}";
-	theme: "{{ theme }}";
-	location: {{ location }};
-	xoffset: {{ xoffset }};
-	yoffset: {{ yoffset }};
-	ssh-command: "{terminal} -e '{ssh-client} {host} [-p {port}]'";
+	font: "{{ font }}";
+	modi: "combi";
+	combi-modi: "window,drun,run,ssh";
+	parse-hosts: true;
+	fixed-num-lines: false;
+	matching: "fuzzy";
+
+	show-icons:     {{ show_icons | lower }};
+	icon-theme:     "{{ icon_theme }}";
+	display-combi:  "";
+	display-drun:   "";
+	display-run:    "";
+	display-ssh:    "";
+	display-window: "";
+
+	window-thumbnail: true;
+
+	ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";
+
 }
+
+
+@theme "{{ theme }}"
+
+/* vim:ft=css
