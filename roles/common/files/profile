@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 export SXHKD_SHELL="/bin/zsh"
-export TERMINAL="termite"
-export EDITOR="vim"
-export VISUAL="gvim"
-export SUDO_EDITOR="vim"
+export TERMINAL="kitty"
+export EDITOR="nvim"
+export VISUAL="nvim"
+export SUDO_EDITOR="nvim"
 export BROWSER="chromium"
 export CALCULATOR="${TERMINAL} -e calc"
-export FILE_BROWSER="pcmanfm"
+export FILE_BROWSER="thunar"
 export IM_CLIENT="discord"
 export IRC_CLIENT="hexchat"
 export MAIL_CLIENT="${TERMINAL} -e mutt"

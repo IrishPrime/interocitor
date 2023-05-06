@@ -2,37 +2,23 @@
 - name: Install packages
   ansible.builtin.package:
     state: present
-    name: "{{ lookup('community.general.flattened', standard_packages , graphical_packages, headless_packages) }}"
+    name: "{{ lookup('community.general.flattened', standard_packages, graphical_packages, headless_packages) }}"
   tags:
     - packages
 
-- name: Copy .profile
+- name: Copy hidden user files
   ansible.builtin.copy:
-    src: profile
-    dest: "{{ lookup('env', 'HOME') }}/.profile"
+    src: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.{{ item | splitext | first }}"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
+    mode: 0640
+  loop:
+    - profile
+    - Xresources.{{ theme }}
+    - dir_colors.{{ theme }}
   tags:
     - configuration
-
-- name: Copy .Xresources
-  ansible.builtin.copy:
-    src: Xresources.{{ theme }}
-    dest: "{{ lookup('env', 'HOME') }}/.Xresources"
-    owner: "{{ user }}"
-    group: "{{ group }}"
-  when: "'graphical' in group_names"
-  tags:
-    - themes
-
-- name: Copy .dir_colors
-  ansible.builtin.copy:
-    src: dir_colors.{{ theme }}
-    dest: "{{ lookup('env', 'HOME') }}/.dir_colors"
-    owner: "{{ user }}"
-    group: "{{ group }}"
-  tags:
-    - themes
 
 - name: Create user bin directory
   ansible.builtin.file:
@@ -40,6 +26,7 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
+    mode: 0750
   tags:
     - scripts
 
@@ -54,3 +41,5 @@
     - bin/*
   tags:
     - scripts
+
+# vim: filetype=yaml.ansible

@@ -7,6 +7,7 @@ standard_packages:
   - autogen
   - automake
   - base
+  - bat
   - bind
   - calc
   - ctags
@@ -17,13 +18,13 @@ standard_packages:
   - gcc
   - gdb
   - git
-  - git-extras
   - git-lfs
   - gnu-netcat
   - gparted
-  - htop
+  - btop
   - inetutils
   - jq
+  - kitty
   - lshw
   - lsof
   - lvm2
@@ -46,13 +47,10 @@ standard_packages:
   - sudo
   - systemd-resolvconf
   - texinfo
-  - the_silver_searcher
   - traceroute
   - tree
-  - twine
   - units
   - valgrind
-  - w3m
   - wget
   - whois
   - xdg-user-dirs
@@ -72,3 +70,5 @@ headless_packages: []
 theme: nord
 user: "{{ lookup('env', 'USER') }}"
 group: "{{ lookup('env', 'USER') }}"
+
+# vim: filetype=yaml.ansible
