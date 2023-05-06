@@ -1,3 +1,4 @@
+---
 # Packages to only be installed on headless systems
 headless_packages:
-  - vim
+  - neovim

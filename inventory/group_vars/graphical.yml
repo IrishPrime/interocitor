@@ -1,20 +1,18 @@
+---
 # Packages to only be installed on graphical systems
 graphical_packages:
   - accountsservice
   - alsa-utils
   - arandr
   - ario
-  - asoundconf
-  - atool
   - autorandr
   - chromium
-  - deluge-gtk
   - dunst
   - eom
   - ffmpegthumbnailer
   - gimp
-  - gvim
   - hexchat
+  - kitty
   - libreoffice-fresh
   - lightdm-gtk-greeter-settings
   - lxappearance-gtk3
@@ -24,23 +22,23 @@ graphical_packages:
   - meld
   - mpc
   - mpv
-  - nerd-fonts-dejavu-complete
   - nitrogen
-  - nordic-theme-git
   - noto-fonts-emoji
   - otf-fantasque-sans-mono
   - otf-font-awesome
-  - pcmanfm-gtk3
   - picom
-  - poppler
   - remmina
   - scrot
   - seahorse
   - sxhkd
   - sxiv
-  - termite
+  - thunar
+  - thunar-archive-plugin
+  - thunar-media-tags-plugin
+  - thunar-volman
   - ttf-dejavu
-  - ttf-nerd-fonts-symbols
+  - ttf-nerd-fonts-symbols-common
+  - tumbler
   - xclip
   - xdg-user-dirs-gtk
   - xdotool
