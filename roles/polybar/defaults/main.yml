@@ -22,3 +22,5 @@ tray_position: right
 
 bspwm:
   prefix: 
+
+# vim: filetype=yaml.ansible

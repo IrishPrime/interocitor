@@ -1,0 +1,6 @@
+---
+polybar:
+  monitors:
+    - DP-0
+    - DP-4.1.8
+    - DP-4.8

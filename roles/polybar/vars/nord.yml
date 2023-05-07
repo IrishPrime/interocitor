@@ -11,6 +11,7 @@ colors:
     - "#A3BE8C" # green
     - "#EBCB8B" # yellow
     - "#D08770" # orange
+    - "#BF616A" # red
   accents:
     - "#BF616A" # red
     - "#D08770" # orange
@@ -21,3 +22,5 @@ colors:
     - "#81A1C1" # light blue
     - "#5E81AC" # blue
     - "#B48EAD" # purple
+
+# vim: filetype=yaml.ansible

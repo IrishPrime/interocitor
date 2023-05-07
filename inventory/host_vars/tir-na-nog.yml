@@ -1,0 +1,6 @@
+---
+polybar:
+  monitors:
+    - DisplayPort-1
+    - DisplayPort-6
+    - DisplayPort-3

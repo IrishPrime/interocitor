@@ -33,9 +33,37 @@ wm-restack = bspwm
 
 enable-ipc = true
 
+[bar/tir-na-nog-primary]
+inherit = bar/defaults
+monitor = ${env:MONITOR:{{ polybar.monitors[0] }}}
+
+modules-left = bspwm xwindow
+modules-center =
+modules-right = mpd filesystem tir-na-nog-network tunnel cpu memory temperature date powermenu
+
+[bar/tir-na-nog-secondary]
+inherit = bar/defaults
+monitor = ${env:MONITOR:{{ polybar.monitors[1] }}}
+
+modules-left = bspwm xwindow
+modules-center =
+modules-right = mpd filesystem tir-na-nog-network cpu memory temperature date powermenu
+
+tray-position = none
+
+[bar/tir-na-nog-tertiary]
+inherit = bar/defaults
+monitor = ${env:MONITOR:{{ polybar.monitors[2] }}}
+
+modules-left = bspwm xwindow
+modules-center =
+modules-right = mpd filesystem tir-na-nog-network cpu memory temperature date powermenu
+
+tray-position = none
+
 [bar/ireland-primary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:DP-0}
+monitor = ${env:MONITOR:{{ polybar.monitors[0] }}}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -43,7 +71,7 @@ modules-right = mpd filesystem ireland-network tunnel cpu memory temperature dat
 
 [bar/ireland-secondary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:DP-4.1.8}
+monitor = ${env:MONITOR:{{ polybar.monitors[1] }}}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -53,7 +81,7 @@ tray-position = none
 
 [bar/ireland-tertiary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:DP-4.8}
+monitor = ${env:MONITOR:{{ polybar.monitors[2] }}}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -109,7 +137,7 @@ mount-1 = /home
 
 fixed-values = true
 
-label-mounted =  %mountpoint%: %free% (%percentage_free%%)
+label-mounted = 󰋊 %mountpoint%: %free% (%percentage_free%%)
 format-mounted = <label-mounted>
 format-mounted-padding = {{ format_padding }}
 format-mounted-prefix-foreground = ${colors.accents-1}
@@ -137,7 +165,7 @@ label-focused-padding = {{ label_padding }}
 label-occupied = %icon%
 label-occupied-padding = {{ label_padding }}
 
-label-urgent = %icon%
+label-urgent = %icon%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = {{ label_padding }}
 
@@ -147,35 +175,35 @@ label-empty-padding = {{ label_padding }}
 
 # Workspace icons
 ws-icon-default = ○
-ws-icon-0 = 1;
-ws-icon-1 = 2;
-ws-icon-2 = 3;
-ws-icon-3 = 4;
-ws-icon-4 = 5;
-ws-icon-5 = 6;
-ws-icon-6 = 7;
-ws-icon-7 = 8;
-ws-icon-8 = 9;
-ws-icon-9 = 0;
+ws-icon-0 = 1;󰬺
+ws-icon-1 = 2;󰬻
+ws-icon-2 = 3;󰬼
+ws-icon-3 = 4;󰬽
+ws-icon-4 = 5;󰬾
+ws-icon-5 = 6;󰬿
+ws-icon-6 = 7;󰭀
+ws-icon-7 = 8;󰭁
+ws-icon-8 = 9;󰭂
+ws-icon-9 = 0;󰿩
 
 # Node states
-label-floating = 
+label-floating = 󰀽
 label-floating-padding = {{ format_padding }}
-label-fullscreen = 
+label-fullscreen = 
 label-fullscreen-padding = {{ format_padding }}
-label-monocle = 
+label-monocle = 󰊓
 label-monocle-padding = {{ format_padding }}
-label-pseudotiled = 
+label-pseudotiled = 󰀿
 label-pseudotiled-padding = {{ format_padding }}
-label-tiled = 
+label-tiled = 󱇙
 label-tiled-padding = {{ format_padding }}
 
 # Node flags
 label-locked = 
 label-locked-padding = {{ format_padding }}
-label-marked = 
+label-marked = 
 label-marked-padding = {{ format_padding }}
-label-private = 
+label-private = 
 label-private-padding = {{ format_padding }}
 label-sticky = 
 label-sticky-padding = {{ format_padding }}
@@ -231,7 +259,7 @@ bar-empty-foreground = ${colors.foreground-1}
 type = internal/cpu
 interval = 2
 format-padding = {{ format_padding }}
-format-prefix = " "
+format-prefix = "󰻠 "
 format-prefix-foreground = ${colors.accents-4}
 format-underline = ${colors.accents-4}
 
@@ -258,7 +286,7 @@ ramp-signal-5 = 😈
 ramp-signal-foreground = ${colors.foreground-0}
 
 format-connected-padding = {{ format_padding }}
-format-connected-prefix = "直 "
+format-connected-prefix = "󰖩 "
 format-connected-underline = ${colors.accents-3}
 format-connected-prefix-foreground = ${colors.accents-3}
 
@@ -271,11 +299,17 @@ format-disconnected-prefix-foreground = ${colors.alert}
 label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.alert}
 
+[module/tir-na-nog-network]
+inherit = network/defaults
+interface = eno1
+format-connected-prefix = "󰩠 "
+label-connected = %local_ip% 󰛶 %upspeed% 󰛴 %downspeed%
+
 [module/ireland-network]
 inherit = network/defaults
 interface = enp4s0
-format-connected-prefix = " "
-label-connected = %local_ip% ﯴ %upspeed% ﯲ %downspeed%
+format-connected-prefix = "󰩠 "
+label-connected = %local_ip% 󰛶 %upspeed% 󰛴 %downspeed%
 
 [module/wisp-network]
 inherit = network/defaults
@@ -283,8 +317,8 @@ inherit = network/defaults
 [module/callisto-eth]
 inherit = network/defaults
 interface = enp0s31f6
-format-connected-prefix = " "
-label-connected = %local_ip% Up: %upspeed% Down: %downspeed%
+format-connected-prefix = "󰩠 "
+label-connected = %local_ip% 󰛶 %upspeed% 󰛴 %downspeed%
 
 [module/callisto-wlan]
 inherit = network/defaults
@@ -292,8 +326,8 @@ inherit = network/defaults
 [module/tunnel]
 inherit = network/defaults
 interface = tun0
-format-connected-prefix = "旅 "
-label-connected = %local_ip% ﯴ %upspeed% ﯲ %downspeed%
+format-connected-prefix = "󱂇 "
+label-connected = %local_ip% 󰛶 %upspeed% 󰛴 %downspeed%
 label-disconnected =
 
 [module/date]
@@ -414,7 +448,7 @@ label-open-padding = {{ label_padding }}
 label-close = 
 label-close-foreground = ${colors.alert}
 label-close-padding = {{ label_padding }}
-label-separator = ┃
+label-separator = 
 label-separator-foreground = ${colors.foreground-1}
 
 menu-0-0 = reboot
