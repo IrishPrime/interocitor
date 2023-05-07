@@ -29,9 +29,10 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0755
-  with_fileglob:
-    - after/ftplugin/*
-    - ftplugin/*
-    - lua/irish/*
+  loop:
+    - init.lua
+    - after/ftplugin/
+    - ftplugin/
+    - lua/
 
 # vim: filetype=yaml.ansible

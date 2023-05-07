@@ -5,6 +5,7 @@
       - mpc
       - mpd
     state: present
+  notify: Start and enable user service
   tags:
     - packages
 
@@ -19,14 +20,14 @@
     - "{{ lookup('env', 'HOME') }}/.config/mpd/"
     - "{{ files.music_directory }}"
     - "{{ files.playlist_directory }}"
-  become: no
+  become: false
   tags:
     - configuration
 
 - name: Create user configuration files
   ansible.builtin.file:
     path: "{{ item }}"
-    state: file
+    state: touch
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0644
@@ -36,7 +37,7 @@
     - "{{ files.pid_file }}"
     - "{{ files.state_file }}"
     - "{{ files.sticker_file }}"
-  become: no
+  become: false
   tags:
     - configuration
 
@@ -47,17 +48,9 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0644
-  become: no
+  become: false
   notify: Restart mpd
   tags:
     - configuration
 
-- name: Start and enable user service
-  ansible.builtin.systemd:
-    name: mpd
-    enabled: yes
-    scope: user
-    state: started
-  become: no
-  tags:
-    - service
+# vim: filetype=yaml.ansible

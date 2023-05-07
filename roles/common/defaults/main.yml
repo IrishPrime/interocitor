@@ -49,7 +49,6 @@ standard_packages:
   - texinfo
   - traceroute
   - tree
-  - units
   - valgrind
   - wget
   - whois

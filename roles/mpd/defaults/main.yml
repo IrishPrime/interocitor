@@ -47,3 +47,5 @@ normalization:
   replaygain_missing_preamp: 0
   replaygain_limit: "yes"
   volume_normalization: "no"
+
+# vim: filetype=yaml.ansible
