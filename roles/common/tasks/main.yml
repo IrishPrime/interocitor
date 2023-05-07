@@ -17,6 +17,7 @@
     - profile
     - Xresources.{{ theme }}
     - dir_colors.{{ theme }}
+    - LESS_TERMCAP
   tags:
     - configuration
 

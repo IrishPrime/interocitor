@@ -43,3 +43,5 @@
     - "*.zsh"
   tags:
     - configuration
+
+# vim: filetype=yaml.ansible

@@ -6,6 +6,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # The following lines were added by compinstall
+fpath+=~/.zfunc
+autoload -Uz compinit
+compinit
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _ignored _match _approximate
@@ -28,28 +31,38 @@ zstyle ':completion:*' substitute 1
 zstyle ':completion:*:*:git:*' user-commands bonsai:'trim local branches with removed remotes'
 zstyle :compinstall filename '/home/irish/.zshrc'
 
-autoload -Uz compinit
-compinit
-
 # End of lines added by compinstall
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 setopt notify
+setopt complete_aliases
 unsetopt beep
 bindkey -e
 # End of lines configured by zsh-newuser-install
+
+# Add bookmark support
+if [ -d "${HOME}/.bookmarks" ]; then
+	export CDPATH=".:${HOME}/.bookmarks"
+	alias goto="cd -P"
+fi
 
 # Enable dircolors if available
 if [ -x /usr/bin/dircolors ]; then
 	test -r ~/.dir_colors && eval "$(dircolors -b ~/.dir_colors)" || eval "$(dircolors -b)"
 fi
 
+# Get color support for 'less'
+export LESS="--RAW-CONTROL-CHARS -F -X"
+
+# Use colors for less, man, etc.
+[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
+
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-source ~/.zsh/p10k.zsh
+[[ ! -f ~/.zsh/p10k.zsh ]] || source ~/.zsh/p10k.zsh
 
 # Source alias definitions
 source ~/.zsh/aliases.zsh
@@ -58,6 +71,9 @@ source ~/.zsh/aliases.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+source /usr/share/doc/git-extras/git-extras-completion.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585858,bold,underline"
 ZSH_AUTOSUGGEST_STRATEGY="match_prev_cmd"
 
