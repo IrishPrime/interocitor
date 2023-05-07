@@ -19,5 +19,8 @@ config:
   presel_feedback_color: "#4C566A"
 
 rules:
-  - "Chromium:crx_gaedmjdfmmahhbjefcbgaolhhanlaolb state=floating # Authy Extension"
-  - "mpv state=floating"
+  - Chromium:crx_gaedmjdfmmahhbjefcbgaolhhanlaolb state=floating  # Authy Extension
+  - mpv state=floating
+  - steam_app_1286680 monitor=0x00A00004  # Tiny Tina's Wonderlands
+
+# vim: filetype=yaml.ansible

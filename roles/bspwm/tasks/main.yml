@@ -72,3 +72,5 @@
     mode: 0644
   tags:
     - configuration
+
+# vim: filetype=yaml.ansible

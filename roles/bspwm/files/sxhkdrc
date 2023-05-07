@@ -5,12 +5,12 @@ super + Escape
 
 # Quit bspwm
 super + alt + Escape
-	pkill -x panel; bspc quit
+	pkill -x polybar; bspc quit
 
 # Reload or quit bspwm
 #super + alt + {_,shift + }Escape
-#	pkill -x panel; \
-#	{bspc query -T > "$BSPWM_TREE"; \
+#	pkill -x polybar; \
+#	{bspc query -T -d any.occupied > "$BSPWM_TREE"; \
 #		bspc query -H > "$BSPWM_HISTORY"; \
 #			bspc query -S > "$BSPWM_STACK"; \
 #			bspc quit, \
@@ -48,8 +48,8 @@ super + {_,shift + }{1-9,0}
 super + shift + c
 	bspc node --close
 
-super + {f,s,d}
-	bspc node --state "~{floating,fullscreen,pseudo_tiled}"
+super + {s,d,f}
+	bspc node --state "~{fullscreen,pseudo_tiled,floating}"
 
 super + {x,a,c}
 	bspc node --flag "{sticky,private,locked}"
@@ -70,7 +70,7 @@ super + apostrophe
 	bspc node --swap last
 
 super + m
-	bspc node --swap biggest
+	bspc node --swap biggest.local
 
 super + {o,i}
 	bspc wm --record-history off; \
@@ -92,11 +92,16 @@ super + ctrl + bracket{left,right}
 super + ctrl + {h,j,k,l}
 	bspc node --presel-dir "~{west,south,north,east}"
 
+# Resize nodes
 super + alt + {h,j,k,l}
-	bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
-
-super + alt + shift + {h,j,k,l}
-	bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
+	{bspc node @parent/first --resize right -20 0; \
+		bspc node @parent/second --resize left -20 0, \
+	bspc node @parent/first --resize bottom 0 +20; \
+		bspc node @parent/second --resize top 0 +20, \
+	bspc node @parent/first --resize bottom 0 -20; \
+		bspc node @parent/second --resize top 0 -20, \
+	bspc node @parent/first --resize right +20 0; \
+		bspc node @parent/second --resize left +20 0}
 
 super + b
 	bspc node @focused:/ --balance
@@ -110,7 +115,7 @@ super + ctrl + {1-9}
 
 # Launchers {{{
 super + space
-	rofi -width -100 -modi combi -show combi -combi-modi "window,drun,run,ssh"
+	rofi -show combi
 
 super + Return
 	$TERMINAL
@@ -122,10 +127,18 @@ super + e
 	$FILE_BROWSER
 
 ctrl + alt + Delete
-	$TERMINAL --title htop -e htop
+	$TERMINAL --title btop -e btop
 
 super + slash
 	dm-tool lock
+# }}}
+
+# Notifications {{{
+ctrl + space
+	dunstctl close
+
+ctrl + grave
+	dunstctl history-pop
 # }}}
 
 # Special keys {{{
@@ -184,10 +197,11 @@ super + Print
 
 # Custom game stuff {{{
 ctrl + alt + shift + s
-	repeat-key.sh s
+	repeat-key.sh 3
 
-ctrl + alt + shift + d
-	repeat-key.sh d
+ctrl + alt + shift + z
+	zdps.sh
+	# repeat-key.sh d
 # }}}
 
 # vim: foldmethod=marker
