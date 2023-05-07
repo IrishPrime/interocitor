@@ -35,7 +35,7 @@ enable-ipc = true
 
 [bar/tir-na-nog-primary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:{{ polybar.monitors[0] }}}
+monitor = ${env:MONITOR:DisplayPort-1}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -43,7 +43,7 @@ modules-right = mpd filesystem tir-na-nog-network tunnel cpu memory temperature 
 
 [bar/tir-na-nog-secondary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:{{ polybar.monitors[1] }}}
+monitor = ${env:MONITOR:DisplayPort-6}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -53,7 +53,7 @@ tray-position = none
 
 [bar/tir-na-nog-tertiary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:{{ polybar.monitors[2] }}}
+monitor = ${env:MONITOR:DisplayPort-3}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -63,7 +63,7 @@ tray-position = none
 
 [bar/ireland-primary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:{{ polybar.monitors[0] }}}
+monitor = ${env:MONITOR:DP-0}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -71,7 +71,7 @@ modules-right = mpd filesystem ireland-network tunnel cpu memory temperature dat
 
 [bar/ireland-secondary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:{{ polybar.monitors[1] }}}
+monitor = ${env:MONITOR:DP-4.1.8}
 
 modules-left = bspwm xwindow
 modules-center =
@@ -81,7 +81,7 @@ tray-position = none
 
 [bar/ireland-tertiary]
 inherit = bar/defaults
-monitor = ${env:MONITOR:{{ polybar.monitors[2] }}}
+monitor = ${env:MONITOR:DP-4.8}
 
 modules-left = bspwm xwindow
 modules-center =
