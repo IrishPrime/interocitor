@@ -2,7 +2,6 @@
 # Packages to only be installed on graphical systems
 graphical_packages:
   - accountsservice
-  - alsa-utils
   - arandr
   - ario
   - autorandr
