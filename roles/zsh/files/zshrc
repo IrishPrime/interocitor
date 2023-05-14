@@ -5,7 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# The following lines were added by compinstall
 fpath+=~/.zfunc
 autoload -Uz compinit
 compinit
@@ -31,16 +30,18 @@ zstyle ':completion:*' substitute 1
 zstyle ':completion:*:*:git:*' user-commands bonsai:'trim local branches with removed remotes'
 zstyle :compinstall filename '/home/irish/.zshrc'
 
-# End of lines added by compinstall
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
 setopt notify
 setopt complete_aliases
 unsetopt beep
 bindkey -e
-# End of lines configured by zsh-newuser-install
+
+# History settings
+HISTFILE=~/.histfile
+HISTSIZE=8192
+SAVEHIST=8192
+setopt extended_history
+setopt HIST_FIND_NO_DUPS
+export HISTTIMEFORMAT="[%F %T] "
 
 # Add bookmark support
 if [ -d "${HOME}/.bookmarks" ]; then
