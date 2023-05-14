@@ -21,11 +21,9 @@ export LC_ALL="en_US.UTF-8"
 # Add custom scripts and utilities to PATH
 export PATH="${PATH}:${HOME}/.local/bin:"
 
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-    --color=fg:#e5e9f0,hl:#81a1c1
-    --color=fg+:#e5e9f0,hl+:#81a1c1
-    --color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
-    --color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b'
+export FZF_DEFAULT_OPTS='
+	--color fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C
+	--color pointer:#BF616A,info:#5E81AC,spinner:#5E81AC,header:#5E81AC,prompt:#81A1C1,marker:#EBCB8B'
 
 export BAT_THEME="Nord"
 
