@@ -15,9 +15,19 @@ case $(hostnamectl --static) in
 		polybar --reload ireland-tertiary &
 		pasystray &
 		;;
+	tir-na-nog)
+		polybar --reload tir-na-nog-primary &
+		polybar --reload tir-na-nog-secondary &
+		polybar --reload tir-na-nog-tertiary &
+		pasystray &
+		;;
 	wisp)
 		setxkbmap -option ctrl:nocaps
 		polybar --reload wisp &
+		;;
+	baile-mor)
+		setxkbmap -option ctrl:nocaps
+		polybar --reload baile-mor-primary &
 		;;
 	callisto)
 		setxkbmap -option ctrl:nocaps
